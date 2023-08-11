@@ -27,4 +27,14 @@ contract Vault {
     constructor(address _token) {
         token = IERC20(_token);
     }
+
+    function _mint(address _to, uint256 _shares) private {
+        totalSupply += _shares;
+        balanceOf[_to] += _shares;
+    }
+
+    function _burn(address _from, uint256 _shares) private {
+        totalSupply -= _shares;
+        balanceOf[_from] -= _shares;
+    }
 }
