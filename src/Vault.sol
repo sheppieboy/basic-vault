@@ -37,4 +37,26 @@ contract Vault {
         totalSupply -= _shares;
         balanceOf[_from] -= _shares;
     }
+
+    function deposit(uint256 _amount) external {
+        /**
+         * a = amount
+         * B = balance of token before deposit
+         * T = total supply
+         * s = shares to mint
+         *
+         * (T+s)/T = (a+B)/B
+         *
+         * s=aT/B
+         */
+
+        uint256 shares;
+        if (totalSupply == 0) {
+            shares = _amount;
+        } else {
+            shares = (_amount * totalSupply) / token.balanceOf(address(this));
+        }
+        _mint(msg.sender, shares);
+        token.transferFrom(msg.sender, address(this), _amount);
+    }
 }
