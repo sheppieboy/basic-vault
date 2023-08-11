@@ -18,4 +18,13 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 amount);
 }
 
-contract Vault {}
+contract Vault {
+    IERC20 public immutable token;
+
+    uint256 public totalSupply;
+    mapping(address => uint256) public balanceOf;
+
+    constructor(address _token) {
+        token = IERC20(_token);
+    }
+}
