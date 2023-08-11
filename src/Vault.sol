@@ -59,4 +59,21 @@ contract Vault {
         _mint(msg.sender, shares);
         token.transferFrom(msg.sender, address(this), _amount);
     }
+
+    function withdraw(uint256 _shares) external {
+        /*
+        a = amount
+        B = balance of token before withdraw
+        T = total supply
+        s = shares to burn
+
+        (T - s) / T = (B - a) / B 
+
+        a = sB / T
+        */
+
+        uint256 amount = (_shares * token.balanceOf(address(this))) / totalSupply;
+        _burn(msg.sender, _shares);
+        token.transfer(msg.sender, amount);
+    }
 }
